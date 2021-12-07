@@ -1,5 +1,7 @@
 import math
 import itertools
+import aoc_util as util
+import re
 
 
 # TODO: adjust day
@@ -11,15 +13,19 @@ day = 1
 with open(f'{day}.txt', 'r') as f:
     input = f.read().strip().split('\n')  # f.readlines()
 
-# input = list(map(int,input))
 
+# transform the input, apply to every row
+def apply_to_row(x):
+    # do stuff
+    return x
+input = list(map(apply_to_row,input))
+
+# solve
 ans = 0
-# process input
 for l in input:
     pass
 
 
-# solve problem
 
 
 print(ans)

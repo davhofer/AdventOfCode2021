@@ -42,6 +42,11 @@ class Graph:
         # actually run it
         rec_dfs(start)
 
+        for v in self.visited:
+            if not v:
+                return False
+        return True
+
 
 
     def basic_bfs(self,start:int,function_on_node=None):
