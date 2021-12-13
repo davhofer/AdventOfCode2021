@@ -38,6 +38,17 @@ hex to int
 i = int('100',16)
 int to hex
 h = hex(256)
+
+
+
+DYNAMIC PROGRAMMING
+what are the problem variables? which variables model a current state?
+what is the recursion/recurrence relation? how do we get from one state to its neighboring states?
+what are the base cases
+implement recursively or iteratively
+add memoization
+
+
 """
 
 def parse_groups(input):
@@ -68,19 +79,88 @@ def parse_matrix(input,separator,apply_to_items=lambda x: x):
 def map_matrix(matrix,f):
     return list(map(lambda row: list(map(f,row)),matrix))
 
+def print_matrix(matrix):
+    for row in matrix:
+        print(row)
 
-
+def neighbors(x,y,size_x,size_y,corners = True):
+    n = []
+    for i in range(-1,2):
+        for j in range(-1,2):
+            # to exclude self:
+            if i == 0 and j == 0:
+                continue
+            # out of bounds checking
+            if x+i < 0 or y+j < 0 or i+x>= size_x or y+j >= size_y:
+                continue
+            # to excude corners:
+            if not corners and abs(i+j) != 1:
+                continue
+            n.append((x+i,y+j))
+    return n
 
 # conways game of live?
 
 # matrix functionality:
 # count neighbors, apply function to neighbors
 # specifiy whether neighbors include diagonals
-# specify function/return value based on neighbors, 
+# specify function/return value based on nSeighbors, 
 # i.e. check condition, or count smth
 
 
-# flip, rotate, transpose matrices?
+
+# TODO:
+# flip, rotate, transpose matrices
+
+
+def points_to_matrix(points):
+    X = 0
+    Y = 0
+    for (x,y) in points:
+        X = max(X,x)
+        Y = max(Y,y)
+    m = [[0 for i in range(X)] for j in range(Y)]
+    for (x,y) in points:
+        m[y][x] = 1
+    return m
+
+def matrix_to_points(matrix):
+    points = set([])
+    for x in range(len(matrix[0])):
+        for y in range(len(matrix)):
+            if matrix[y][x] == 1:
+                points.add((x,y))
+    return points
+
+def flip_matrix(axis,matrix):
+    n = len(matrix)
+    m = []    
+    if axis=='y':
+        for i in range(n):
+            m.append(matrix[n-i-1])
+        return m
+
+    if axis=='x':
+        for row in matrix:
+            m.append(list(reversed(row)))
+    return m
+
+def split_matrix_at(idx,axis,matrix,include_idx=False):
+    m1 = []
+    m2 = []
+    middle = idx if include_idx else idx+1
+    if axis=='y':
+        m1 = matrix[:idx]
+        m2 = matrix[middle:]
+        
+
+    if axis=='x':
+        for row in matrix:
+            m1.append(row[:idx])
+            m2.append(row[middle:])
+
+    return (m1,m2)
+
 
 
 # dynamic programming
@@ -96,7 +176,28 @@ if __name__ == '__main__':
     with open('test.txt') as f:
         input = f.read().strip().split('\n')
 
-    l = ['14 21 17 24  4', '10 16 15  9 19', '18  8 23 26 20', '22 11 13  6  5', ' 2  0 12  3  7']
+    l = ['1 1 1 2 2', '0 1 0  1 0', '1  1 0 0 0', '1 0 0  1  1', ' 1 2 3  4  5']
     m = parse_matrix(l,' ')
     mapped = map_matrix(m,int)
-    print(mapped)
+    print_matrix(mapped)
+
+    print()
+    print()
+    print_matrix(flip_matrix('x',mapped))
+    
+    print()
+    print()
+    print_matrix(flip_matrix('y',mapped))
+
+    print()
+    print()
+    print_matrix(split_matrix_at(2,'x',mapped)[0])
+    print()
+    print_matrix(split_matrix_at(2,'x',mapped)[1])
+
+    print()
+    print()
+    print("Neighbors")
+    print(neighbors(1,1,4,4,False))
+
+ 

@@ -10,6 +10,8 @@ class Graph:
 
     def addEdge(self,u,v,directed=True,weight=None):
         # add edge
+        if u not in self.edges.keys():
+            self.edges[u] = []
         self.edges[u].append(v)
         # if there is a weight for the edge, add it to the weights dict
         if weight is not None:
@@ -17,6 +19,8 @@ class Graph:
 
         # if edges are not directed, do the same in the other direction
         if not directed:
+            if v not in self.edges.keys():
+                self.edges[v] = []
             self.edges[v].append(u)
             if weight is not None:
                 self.weights[v,u] = weight
