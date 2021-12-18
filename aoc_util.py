@@ -52,6 +52,37 @@ add memoization
 """
 
 
+def parse_rec_list(line, idx):
+    if line[idx] != '[':
+        return ''
+    idx += 1
+
+    items = []
+    open = 0
+    while idx < len(line):
+        if line[idx] == '[':
+
+            item, idx = parse_rec_list(line, idx)
+            items.append(item)
+        elif line[idx] in list("1234567890"):
+            num = line[idx]
+            idx += 1
+            while line[idx] in list("1234567890"):
+                num += line[idx]
+                idx += 1
+            num = int(num)
+            items.append(num)
+        elif line[idx] == ',':
+            idx += 1
+        elif line[idx] == ']':
+            idx += 1
+            return items, idx
+        else:
+            print("Bad character encountered:", line[idx])
+    idx += 1
+    return items, idx
+
+
 def parse_groups(input):
     # takes a list of lines as input, returns a list of lists of lines,
     # grouped by/separated by empty lines
@@ -314,29 +345,31 @@ class Graph:
 
 if __name__ == '__main__':
 
-    with open('test.txt') as f:
-        input = f.read().strip().split('\n')
+    l = "[[[[1,2],[3,4]],[[5,6],[7,8]]],9]"
+    print(parse_list(l, 0)[0])
+    # with open('test.txt') as f:
+    #     input = f.read().strip().split('\n')
 
-    l = ['1 1 1 2 2', '0 1 0  1 0', '1  1 0 0 0', '1 0 0  1  1', ' 1 2 3  4  5']
-    m = parse_matrix(l, ' ')
-    mapped = map_matrix(m, int)
-    print_matrix(mapped)
+    # l = ['1 1 1 2 2', '0 1 0  1 0', '1  1 0 0 0', '1 0 0  1  1', ' 1 2 3  4  5']
+    # m = parse_matrix(l, ' ')
+    # mapped = map_matrix(m, int)
+    # print_matrix(mapped)
 
-    print()
-    print()
-    print_matrix(flip_matrix('x', mapped))
+    # print()
+    # print()
+    # print_matrix(flip_matrix('x', mapped))
 
-    print()
-    print()
-    print_matrix(flip_matrix('y', mapped))
+    # print()
+    # print()
+    # print_matrix(flip_matrix('y', mapped))
 
-    print()
-    print()
-    print_matrix(split_matrix_at(2, 'x', mapped)[0])
-    print()
-    print_matrix(split_matrix_at(2, 'x', mapped)[1])
+    # print()
+    # print()
+    # print_matrix(split_matrix_at(2, 'x', mapped)[0])
+    # print()
+    # print_matrix(split_matrix_at(2, 'x', mapped)[1])
 
-    print()
-    print()
-    print("Neighbors")
-    print(neighbors(1, 1, 4, 4, False))
+    # print()
+    # print()
+    # print("Neighbors")
+    # print(neighbors(1, 1, 4, 4, False))
