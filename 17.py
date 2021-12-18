@@ -3,19 +3,7 @@ import itertools
 import aoc_util as util
 import re
 
-
 day = 17
-
-# get input
-# with open(f'{day}.txt', 'r') as f:
-#     input = f.read().strip().split('\n')  # f.readlines()
-
-
-# testcase:
-# target area: x=20..30, y=-10..-5
-
-# submission:
-# target area: x=175..227, y=-134..-79
 
 
 def step(x, y, velocity):
@@ -27,7 +15,7 @@ def step(x, y, velocity):
     return x, y, new_v
 
 
-#target = ((20, 30), (-10, -5))
+test = ((20, 30), (-10, -5))
 target = ((175, 227), (-134, -79))
 x = 0
 y = 0

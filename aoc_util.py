@@ -58,7 +58,6 @@ def parse_rec_list(line, idx):
     idx += 1
 
     items = []
-    open = 0
     while idx < len(line):
         if line[idx] == '[':
 

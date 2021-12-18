@@ -48,9 +48,14 @@ class Inorder:
                     return True
         return False
 
+    def go(self, tree):
+        self.find(tree)
+        self.index = -1
+        self.replace(tree)
+
 
 def add(s1, s2):
-    return([s1, s2])
+    return(copy.deepcopy([s1, s2]))
 
 
 def rec_red(node, depth: int, explosion: bool):
@@ -71,32 +76,26 @@ def rec_red(node, depth: int, explosion: bool):
 
 
 def reduce(s):
-    # do reduction. if smth was reduced, set flag
     was_reduced, exploded = rec_red(s, 1, True)
     if not was_reduced:
         was_reduced, exploded = rec_red(s, 1, False)
     if was_reduced:
-
         if exploded != [-1, -1]:
             inorder = Inorder(exploded)
-            inorder.find(s)
-            inorder.index = -1
-            inorder.replace(s)
+            inorder.go(s)
         return reduce(s)
     return s
 
 
-lists = copy.deepcopy(input)
-current = lists[0]
-for l in lists[1:]:
-    current = reduce(add(current, l))
-
-
 def magnitude(elem):
-    if type(elem) == int:
-        return elem
     if type(elem) == list:
         return 3*magnitude(elem[0]) + 2 * magnitude(elem[1])
+    return elem
+
+
+current = input[0]
+for l in input[1:]:
+    current = reduce(add(current, l))
 
 
 print("part 1:", magnitude(current))
@@ -104,17 +103,10 @@ print("part 1:", magnitude(current))
 m = 0
 for i in input:
     for j in input:
-        a = copy.deepcopy(i)
-        b = copy.deepcopy(j)
         if i == j:
             continue
-        x = magnitude(reduce(add(a, b)))
-        if x > m:
-            m = x
-        a = copy.deepcopy(i)
-        b = copy.deepcopy(j)
-        x = magnitude(reduce(add(b, a)))
-        if x > m:
-            m = x
+        x = magnitude(reduce(add(i, j)))
+        y = magnitude(reduce(add(j, i)))
+        m = max(m, x, y)
 
 print("part 2:", m)
