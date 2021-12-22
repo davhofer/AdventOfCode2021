@@ -6,8 +6,7 @@ day = 18
 
 # get input
 with open(f'{day}.txt', 'r') as f:
-    input = f.read().strip().split('\n')  # f.readlines()
-
+    input = f.read().strip().split('\n') 
 
 input = list(map(lambda x: util.parse_rec_list(x, 0)[0], input))
 
