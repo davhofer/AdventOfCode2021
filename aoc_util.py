@@ -53,8 +53,7 @@ add memoization
 
 
 def parse_rec_list(line, idx):
-    if line[idx] != '[':
-        return ''
+    assert(line[idx] == '[')
     idx += 1
 
     items = []
