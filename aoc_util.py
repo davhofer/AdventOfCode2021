@@ -344,7 +344,7 @@ class Graph:
 if __name__ == '__main__':
 
     l = "[[[[1,2],[3,4]],[[5,6],[7,8]]],9]"
-    print(parse_list(l, 0)[0])
+    print(parse_rec_list(l, 0)[0])
     # with open('test.txt') as f:
     #     input = f.read().strip().split('\n')
 
