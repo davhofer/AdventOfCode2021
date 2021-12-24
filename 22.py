@@ -1,10 +1,3 @@
-import math
-import itertools
-import aoc_util as util
-import re
-import numpy as np
-
-
 day = 22
 
 # get input
@@ -39,7 +32,7 @@ def intersection(cuboid1, cuboid2):
 
     for i in range(3):
         if cuboid1[i][0] > cuboid2[i][1] or cuboid1[i][1] < cuboid2[i][0]:
-            return -1
+            return False
         intersect.append([max(cuboid1[i][0], cuboid2[i][0]),
                           min(cuboid1[i][1], cuboid2[i][1])])
     return intersect
@@ -47,7 +40,7 @@ def intersection(cuboid1, cuboid2):
 
 def diff(cuboid1, cuboid2):
     intersect = intersection(cuboid1, cuboid2)
-    if intersect == -1:
+    if not intersect:
         return [cuboid1]
 
     differences = []
