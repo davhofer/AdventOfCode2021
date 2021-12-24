@@ -1,10 +1,3 @@
-import math
-import itertools
-import aoc_util as util
-import re
-import numpy as np
-
-
 day = 22
 
 # get input
@@ -27,27 +20,19 @@ def apply_to_row(x):
 input = list(map(apply_to_row, input))
 
 
-"""
-idea:
-take the intersection of 2 cuboids
-calculate the difference from it
-"""
-
-
 def intersection(cuboid1, cuboid2):
     intersect = []
 
     for i in range(3):
         if cuboid1[i][0] > cuboid2[i][1] or cuboid1[i][1] < cuboid2[i][0]:
-            return -1
+            return False
         intersect.append([max(cuboid1[i][0], cuboid2[i][0]),
                           min(cuboid1[i][1], cuboid2[i][1])])
     return intersect
 
-
 def diff(cuboid1, cuboid2):
     intersect = intersection(cuboid1, cuboid2)
-    if intersect == -1:
+    if not intersect:
         return [cuboid1]
 
     differences = []
@@ -72,13 +57,11 @@ def diff(cuboid1, cuboid2):
 
     # in front
     if cuboid1[1][0] <= intersect[1][0]-1:
-        differences.append(
-            [intersect[0], [cuboid1[1][0], intersect[1][0]-1], intersect[2]])
+        differences.append([intersect[0], [cuboid1[1][0], intersect[1][0]-1], intersect[2]])
 
     # behind
     if intersect[1][1]+1 <= cuboid1[1][1]:
-        differences.append(
-            [intersect[0], [intersect[1][1]+1, cuboid1[1][1]], intersect[2]])
+        differences.append([intersect[0], [intersect[1][1]+1, cuboid1[1][1]], intersect[2]])
 
     return differences
 
@@ -98,7 +81,7 @@ for cmd in input:
         next_cuboids.append(cuboid)
 
     cuboids_on = next_cuboids
-
+    
 lights_on = 0
 for cuboid in cuboids_on:
     vol = 1
