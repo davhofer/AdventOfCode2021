@@ -24,7 +24,7 @@ correct = []
 
 prog = list(map(apply_to_row, input))
 # range(99999999554187, 11111111111111, -1):
-for i in range(99999999554187, 11111111111111, -1):
+for i in [99979546381457]:#range(99999999554187, 11111111111111, -1):
     inp = str(i)
     if '0' in inp:
         continue
